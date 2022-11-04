@@ -1,6 +1,8 @@
 package com.example.fcm
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -73,6 +75,19 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private var TAG = "FirebaseMessagingService"
+
+        private fun newReuseIntent(context: Context, action: String? = null): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                this.action = action
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        }
+
+        // fcmで開きたいIntentの用意
+        fun newNotificationIntent(context: Context): Intent {
+            return newReuseIntent(context).apply {
+            }
+        }
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
